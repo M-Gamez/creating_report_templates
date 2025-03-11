@@ -9,15 +9,17 @@ to build the duplicate gallery.
 
 Create a new RMD file using the below YAML settings.
 
-    ---
-    title: 'Page Title'
-    output:
-       html_document:
-         theme: readable
-         df_print: paged
-         highlight: zenburn
-         toc: true
-    ---
+``` r
+---
+title: 'Page Title'
+output:
+   html_document:
+     theme: readable
+     df_print: paged
+     highlight: zenburn
+     toc: true
+---
+```
 
 ## Step 2: Member Data Frame
 
@@ -27,50 +29,52 @@ empty string as a placeholder (““) if a member is missing information in
 one of the fields. <br> <br> Bind the vectors together into a data frame
 using `data.frame()` function.
 
-    member_list <- list(
-                        FIRST_NAME = c("Cici",
-                                       "Matthijs",
-                                       "Mahendra",
-                                       "Sangeeta"),
-                        LAST_NAME = c("Bauer", 
-                                      "Berends", 
-                                      "Bhandari", 
-                                      "Bhatia"),
-                        WEBSITE = c( "https://cicibauer.netlify.com/", 
-                                "https://www.rug.nl/staff/m.s.berends/",
-                                "https://%20www.ainqa.com/", 
-                                "https://sangeetabhatia03.github.io/"),
-                        IMG = c( "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-01.png", 
-                                 "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-02.png", 
-                                 "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-03.png", 
-                                 "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-04.png"),
-                        DESC = c("Academic faculty (assistant professor) - Bayesian spatiotemporal modeling, Department of Biostatistics and Data Science, University of Texas Health Science Center in Houston, United States",
-                                 "Infectious Disease Epidemiology, University of Groningen, Netherlands", 
-                                 "Head Intelligent Automation , Predictive Modelling , Ensemble Forecast , Location Based Intelligence , Python / R, AINQA, India", 
-                                 "Modeller and software developer contributing packages for outbreak analysis using digital surveillance data., Imperial College London, UK., NA"),
-                        GITHUB = c( "https://github.com/cicibauer", 
-                                    "https://github.com/msberends", 
-                                    "", 
-                                  "https://github.com/sangeetabhatia03"), 
-                        TWITTER = c("", 
-                                    "https://twitter.com/msberends", 
-                                    "",
-                                    "https://twitter.com/sangeeta0312")
-                        )
-    # Create Member Data Frame
-    member_df <- as.data.frame(member_list)
+``` r
+member_list <- list(
+                    FIRST_NAME = c("Cici",
+                                   "Matthijs",
+                                   "Mahendra",
+                                   "Sangeeta"),
+                    LAST_NAME = c("Bauer", 
+                                  "Berends", 
+                                  "Bhandari", 
+                                  "Bhatia"),
+                    WEBSITE = c( "https://cicibauer.netlify.com/", 
+                            "https://www.rug.nl/staff/m.s.berends/",
+                            "https://%20www.ainqa.com/", 
+                            "https://sangeetabhatia03.github.io/"),
+                    IMG = c( "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-01.png", 
+                             "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-02.png", 
+                             "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-03.png", 
+                             "https://raw.githubusercontent.com/Watts-College/paf-514-template/main/labs/images/avatar-04.png"),
+                    DESC = c("Academic faculty (assistant professor) - Bayesian spatiotemporal modeling, Department of Biostatistics and Data Science, University of Texas Health Science Center in Houston, United States",
+                             "Infectious Disease Epidemiology, University of Groningen, Netherlands", 
+                             "Head Intelligent Automation , Predictive Modelling , Ensemble Forecast , Location Based Intelligence , Python / R, AINQA, India", 
+                             "Modeller and software developer contributing packages for outbreak analysis using digital surveillance data., Imperial College London, UK., NA"),
+                    GITHUB = c( "https://github.com/cicibauer", 
+                                "https://github.com/msberends", 
+                                "", 
+                              "https://github.com/sangeetabhatia03"), 
+                    TWITTER = c("", 
+                                "https://twitter.com/msberends", 
+                                "",
+                                "https://twitter.com/sangeeta0312")
+                    )
+# Create Member Data Frame
+member_df <- as.data.frame(member_list)
 
-    # Create combined name column
-    member_df$NAME <- paste(member_df$FIRST_NAME, member_df$LAST_NAME)
+# Create combined name column
+member_df$NAME <- paste(member_df$FIRST_NAME, member_df$LAST_NAME)
 
-    # Move combined name column to font of data set
-    member_df <- member_df %>% 
-                    select(NAME, everything())
+# Move combined name column to font of data set
+member_df <- member_df %>% 
+                select(NAME, everything())
 
-    # Sort df by last name
-    member_df <- member_df[order(member_df$LAST_NAME),]
+# Sort df by last name
+member_df <- member_df[order(member_df$LAST_NAME),]
 
-    print(member_df)
+print(member_df)
+```
 
 ### Useful HTML with variables
 
@@ -95,9 +99,9 @@ using `data.frame()` function.
 
     </div>
 
-## Step 3: Build\_circle Function
+## Step 3: Build_circle Function
 
-Write an R function called build\_circle() that will create a single
+Write an R function called build_circle() that will create a single
 member profile for the team gallery page.
 
 ### Member Elements:
@@ -109,74 +113,74 @@ member profile for the team gallery page.
 -   GITHUB - URL of personal GitHub page
 -   TWITTER - Twitter URL
 
-<!-- -->
+``` r
+# build_circle function
 
-    # build_circle function
-
-    build_circle <- function(WEBSITE="", IMG="", NAME="", DESC="", GITHUB="", TWITTER="")
-      {
-        
-      # beginning of code
-      cat( '<div class="list-circles-item">')
-      cat( '\n') # line break
-      cat( '\n') # line break
-      
-      # member name & image
-      if (WEBSITE != ""){
-      cat( paste0(' <a href="', WEBSITE, '">') )
-      cat( '\n')  
-      cat( paste0(' <img src="', IMG, '" class="item-img"></a>') )
-      } else {
-        cat( paste0(' <img src="', IMG, '" class="item-img">') )
-      }
-      cat( '\n') 
-      cat( '\n') 
-      if (NAME != ""){
-      cat( paste0(' <h4 class="item-name">', NAME, '</h4>') )
-      } 
-      cat( '\n') 
-       
-      # description
-      if(DESC != ""){
-      cat( paste0('  <div class="item-desc">',  DESC,'</div>'))
-      } else {
-      cat( paste0('  <div class="item-desc">',  "Bio coming soon!",'</div>'))
-      }
-      cat( '\n')  
-      cat( '\n') 
-      
-      # links / fontawesome icons
-      cat( '   <div class="item-links">')
-      cat( '\n') 
-      cat( '\n') 
-      
-      ## home page
-      if(WEBSITE != ""){
-      cat( paste0('   <a class=item-link" href="', WEBSITE, '" title="Website">'), fontawesome::fa(name="home"), '</a>' )
-      cat( '\n') 
-      cat( '\n') 
-      }
-      
-      ## github
-      if(GITHUB != ""){
-      cat( paste0('   <a class=item-link" href="', GITHUB, '" title="Github">'), fontawesome::fa(name="github"), '</a>' )
-      cat( '\n') 
-      cat( '\n') 
-      }
-      
-      ##twitter
-      if(TWITTER != ""){
-      cat( paste0('   <a class=item-link" href="', TWITTER, '" title="Twitter">'), fontawesome::fa(name="twitter"), '</a>' )
-      cat( '\n') 
-      cat( '\n') 
-      }
-      cat( '   </div>')
-      
-      # end of code
-      cat( '\n') 
-      cat( '\n') 
-      cat('</div>')
-    }
+build_circle <- function(WEBSITE="", IMG="", NAME="", DESC="", GITHUB="", TWITTER="")
+  {
+    
+  # beginning of code
+  cat( '<div class="list-circles-item">')
+  cat( '\n') # line break
+  cat( '\n') # line break
+  
+  # member name & image
+  if (WEBSITE != ""){
+  cat( paste0(' <a href="', WEBSITE, '">') )
+  cat( '\n')  
+  cat( paste0(' <img src="', IMG, '" class="item-img"></a>') )
+  } else {
+    cat( paste0(' <img src="', IMG, '" class="item-img">') )
+  }
+  cat( '\n') 
+  cat( '\n') 
+  if (NAME != ""){
+  cat( paste0(' <h4 class="item-name">', NAME, '</h4>') )
+  } 
+  cat( '\n') 
+   
+  # description
+  if(DESC != ""){
+  cat( paste0('  <div class="item-desc">',  DESC,'</div>'))
+  } else {
+  cat( paste0('  <div class="item-desc">',  "Bio coming soon!",'</div>'))
+  }
+  cat( '\n')  
+  cat( '\n') 
+  
+  # links / fontawesome icons
+  cat( '   <div class="item-links">')
+  cat( '\n') 
+  cat( '\n') 
+  
+  ## home page
+  if(WEBSITE != ""){
+  cat( paste0('   <a class=item-link" href="', WEBSITE, '" title="Website">'), fontawesome::fa(name="home"), '</a>' )
+  cat( '\n') 
+  cat( '\n') 
+  }
+  
+  ## github
+  if(GITHUB != ""){
+  cat( paste0('   <a class=item-link" href="', GITHUB, '" title="Github">'), fontawesome::fa(name="github"), '</a>' )
+  cat( '\n') 
+  cat( '\n') 
+  }
+  
+  ##twitter
+  if(TWITTER != ""){
+  cat( paste0('   <a class=item-link" href="', TWITTER, '" title="Twitter">'), fontawesome::fa(name="twitter"), '</a>' )
+  cat( '\n') 
+  cat( '\n') 
+  }
+  cat( '   </div>')
+  
+  # end of code
+  cat( '\n') 
+  cat( '\n') 
+  cat('</div>')
+}
+```
 
 ## Step 4: Loop Through R Epidemics Consortium Members
 
@@ -264,75 +268,77 @@ NA
 
 Adding list-circles CSS items to RMD code to stylize elements.
 
-    <style>
-    /* --- css elements here --- */
-    /* --- Lists of circles --- */
+``` css
+<style>
+/* --- css elements here --- */
+/* --- Lists of circles --- */
 
-    div { display: block } 
-      
-    .list-circles {
-      text-align: center;
-    }
+div { display: block } 
+  
+.list-circles {
+  text-align: center;
+}
 
-    @media only screen and (min-width: 1200px) {
-      .list-circles {
-        width: 150%;
-        margin-left: -25%;
-      }
-    }
+@media only screen and (min-width: 1200px) {
+  .list-circles {
+    width: 150%;
+    margin-left: -25%;
+  }
+}
 
 
-    .list-circles-item {
-      display: inline-block;
-      width: 240px;
-      vertical-align: top;
-      margin: 0;
-      padding: 20px;
-    }
+.list-circles-item {
+  display: inline-block;
+  width: 240px;
+  vertical-align: top;
+  margin: 0;
+  padding: 20px;
+}
 
-    .list-circles-item:hover {
-      background: #fafafa;
-    }
+.list-circles-item:hover {
+  background: #fafafa;
+}
 
-    .list-circles-item .item-img {
-      max-width: 200px;
-      height: 200px;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      border: 1px solid #777;
-    }
+.list-circles-item .item-img {
+  max-width: 200px;
+  height: 200px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 1px solid #777;
+}
 
-    .list-circles-item .item-desc {
-      font-size: 16px;
-      font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
+.list-circles-item .item-desc {
+  font-size: 16px;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 
-    .list-circles-item .item-links {
-      margin-top: 10px;
-      padding-right: 5px;
-      display: flex; 
-      justify-content: center; 
-      align-items: center;
-    }
+.list-circles-item .item-links {
+  margin-top: 10px;
+  padding-right: 5px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
 
-    .list-circles-item .item-link {
-      margin:0 3px;
-      color: #314f96;
-      text-decoration: none !important;
-      padding-right: 10px;
-      padding-left: 10px;
-    }
+.list-circles-item .item-link {
+  margin:0 3px;
+  color: #314f96;
+  text-decoration: none !important;
+  padding-right: 10px;
+  padding-left: 10px;
+}
 
-    .list-circles-item .item-link:hover {
-      color: #042265;
-    }
+.list-circles-item .item-link:hover {
+  color: #042265;
+}
 
-    .svg-icon {
-      display: inline-flex;
-      align-self: center;
-    }
-    </style>
+.svg-icon {
+  display: inline-flex;
+  align-self: center;
+}
+</style>
+```
 
 <style type="text/css">
 <style>

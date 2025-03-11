@@ -25,7 +25,6 @@ Below, we detail how to convert the following [R Epidemics Member Gallery](https
 
 Create a new RMD file using the below YAML settings. 
 
-
 ```{r, eval=FALSE}
 ---
 title: 'Page Title'
